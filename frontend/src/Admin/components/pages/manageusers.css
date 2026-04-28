@@ -1,0 +1,34 @@
+.users-container{
+padding:30px;
+}
+
+.users-container h2{
+margin-bottom:20px;
+font-size:24px;
+}
+
+.users-table{
+width:100%;
+border-collapse:collapse;
+background:white;
+border-radius:8px;
+overflow:hidden;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.users-table th{
+background:#f5f5f5;
+padding:12px;
+text-align:center;
+border-bottom:1px solid #ddd;
+}
+
+.users-table td{
+padding:12px;
+text-align:center;
+border-bottom:1px solid #eee;
+}
+
+.users-table tr:hover{
+background:#fafafa;
+}

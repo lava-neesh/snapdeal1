@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Environment variables - NEVER commit these!
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# Build output
+dist/
+dist-ssr/
+build/
+
+# OS/IDE junk
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Misc
+*.local

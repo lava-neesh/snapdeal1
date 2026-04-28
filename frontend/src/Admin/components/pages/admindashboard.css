@@ -1,0 +1,125 @@
+.dashboard-container {
+  padding: 20px;
+  background: #f5f7fb;
+  min-height: 100vh;
+  font-family: "Segoe UI", sans-serif;
+}
+.dashboard-header {
+  background: linear-gradient(135deg, #fa0b86, #fbfbfb);
+  color: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 26px;
+}
+
+.dashboard-header p {
+  opacity: 0.8;
+  margin: 5px 0 10px;
+}
+
+.header-links span {
+  margin-right: 20px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.header-links span:hover {
+  text-decoration: underline;
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.card p {
+  margin-top: 5px;
+  color: gray;
+}
+
+.revenue {
+  background: #e0f2fe;
+}
+
+.bottom-section {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+.chart {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+.orders {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+.orders table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.orders th,
+.orders td {
+  padding: 10px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.orders th {
+  background: #f1f5f9;
+}
+
+.orders tr {
+  border-bottom: 1px solid #eee;
+}
+
+.status.Pending {
+  color: orange;
+  font-weight: bold;
+}
+
+.status.Delivered {
+  color: green;
+  font-weight: bold;
+}
+
+@media (max-width: 900px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .bottom-section {
+    grid-template-columns: 1fr;
+  }
+}

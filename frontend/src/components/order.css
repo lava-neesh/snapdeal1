@@ -1,0 +1,33 @@
+.orders-container {
+  max-width: 800px;
+  margin: 30px auto;
+}
+
+.order-card {
+  background: #fff;
+  padding: 15px;
+  margin-top: 10px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.status.Pending {
+  color: orange;
+}
+
+.status.Delivered {
+  color: green;
+}
+.item-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.order-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+}

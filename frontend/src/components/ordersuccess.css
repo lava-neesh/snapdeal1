@@ -1,0 +1,54 @@
+.success-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #eef2f5;
+}
+
+.success-box {
+  background: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  text-align: center;
+  width: 400px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.check-icon {
+  font-size: 40px;
+  background: #4caf50;
+  color: white;
+  width: 70px;
+  height: 70px;
+  line-height: 70px;
+  border-radius: 50%;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+.success-box h2 {
+  margin-bottom: 10px;
+}
+
+.success-box p {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.order-id-box {
+  border: 1px dashed #ccc;
+  padding: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.success-box button {
+  background: #1976d2;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+}
