@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "./AdminDashboard.css";
+import "./admindashboard.css";
 import { useNavigate } from "react-router-dom";
 import {
   LineChart,
