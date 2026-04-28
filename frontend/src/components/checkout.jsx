@@ -94,7 +94,7 @@ function Checkout() {
         handler: async function (response) {
           try {
             const saveRes = await axios.post(
-              "https://snapdeal-backend-x00d.onrender.com/orders",
+              "https://snapdeal-backend-x00d.onrender.com/api/orders",
               {
                 items: cart,
                 totalAmount: total,
