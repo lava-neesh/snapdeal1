@@ -28,7 +28,7 @@ function Login() {
     localStorage.setItem("userEmail", email);
     setLoading(true);
     axios
-      .post("https://snapdeal-backend-x00d.onrender.com/user/signup", {
+      .post("https://snapdeal-backend-x00d.onrender.com/api/user/signup", {
         email,
         phone,
         name,
