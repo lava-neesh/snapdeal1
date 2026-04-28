@@ -16,7 +16,7 @@ function EditProduct() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/admin/products/${id}`)
+      .get(`https://snapdeal-backend-x00d.onrender.com/admin/products/${id}`)
       .then((res) => {
         setName(res.data.name);
         setCategory(res.data.category);
@@ -44,7 +44,7 @@ function EditProduct() {
     }
 
     axios
-      .put(`http://localhost:3001/admin/products/${id}`, formData)
+      .put(`https://snapdeal-backend-x00d.onrender.com/admin/products/${id}`, formData)
       .then(() => {
         alert("Product Updated Successfully");
         navigate("/admin/manage-products");

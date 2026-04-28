@@ -27,7 +27,7 @@ function AddProduct() {
     formData.append("image", file);
 
     axios
-      .post("http://localhost:3001/admin/add-product", formData)
+      .post("https://snapdeal-backend-x00d.onrender.com/admin/add-product", formData)
       .then((res) => {
         console.log(res.data);
         alert("Product Added Successfully");

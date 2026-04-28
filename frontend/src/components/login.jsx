@@ -28,7 +28,7 @@ function Login() {
     localStorage.setItem("userEmail", email);
     setLoading(true);
     axios
-      .post("http://localhost:3001/api/user/signup", {
+      .post("https://snapdeal-backend-x00d.onrender.com/user/signup", {
         email,
         phone,
         name,

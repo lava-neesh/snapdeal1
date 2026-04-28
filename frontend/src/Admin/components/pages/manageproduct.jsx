@@ -11,7 +11,7 @@ function ManageProduct() {
   }, []);
   const loadProducts = () => {
     axios
-      .get("http://localhost:3001/admin/products")
+      .get("https://snapdeal-backend-x00d.onrender.com/admin/products")
       .then((res) => {
         setProducts(res.data);
       })
@@ -19,7 +19,7 @@ function ManageProduct() {
   };
   const deleteProduct = (id) => {
     axios
-      .delete(`http://localhost:3001/admin/products/${id}`)
+      .delete(`https://snapdeal-backend-x00d.onrender.com/admin/products/${id}`)
       .then(() => {
         alert("Product Deleted");
         loadProducts();

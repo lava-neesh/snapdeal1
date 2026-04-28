@@ -54,7 +54,7 @@ function Checkout() {
     try {
       setLoading(true);
       const email = localStorage.getItem("userEmail");
-      const res = await axios.post("http://localhost:3001/api/orders", {
+      const res = await axios.post("https://snapdeal-backend-x00d.onrender.com/orders", {
         items: cart,
         totalAmount: total,
         ...form,
@@ -78,7 +78,7 @@ function Checkout() {
       setLoading(true);
       const email = localStorage.getItem("userEmail");
       const res = await axios.post(
-        "http://localhost:3001/api/payment/create-order",
+        "https://snapdeal-backend-x00d.onrender.com/payment/create-order",
         { amount: total }
       );
 
@@ -94,7 +94,7 @@ function Checkout() {
         handler: async function (response) {
           try {
             const saveRes = await axios.post(
-              "http://localhost:3001/api/orders",
+              "https://snapdeal-backend-x00d.onrender.com/orders",
               {
                 items: cart,
                 totalAmount: total,

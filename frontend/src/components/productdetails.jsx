@@ -10,7 +10,7 @@ function ProductDetails() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/admin/products/${id}`)
+      .get(`https://snapdeal-backend-x00d.onrender.com/admin/products/${id}`)
       .then((res) => setProduct(res.data))
       .catch((err) => console.log("Fetch error:", err));
   }, [id]);

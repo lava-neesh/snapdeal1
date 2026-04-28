@@ -29,9 +29,9 @@ function AdminDashboard() {
 
   const fetchData = async () => {
     try {
-      const productRes = await axios.get("http://localhost:3001/admin/products");
-      const orderRes = await axios.get("http://localhost:3001/api/orders");
-      const userRes = await axios.get("http://localhost:3001/api/user/all-users"); // ✅ USERS API
+      const productRes = await axios.get("https://snapdeal-backend-x00d.onrender.com/admin/products");
+      const orderRes = await axios.get("https://snapdeal-backend-x00d.onrender.com/api/orders");
+      const userRes = await axios.get("https://snapdeal-backend-x00d.onrender.com/api/user/all-users"); // ✅ USERS API
 
       const totalRevenue = orderRes.data.reduce(
         (acc, item) => acc + (item.totalAmount || 0),
