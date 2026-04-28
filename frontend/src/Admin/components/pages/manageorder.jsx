@@ -6,7 +6,7 @@ function ManageOrder() {
   const [orders, setOrders] = useState([]);
   const fetchOrders = () => {
     axios
-      .get("http://localhost:3001/api/orders")
+      .get("https://snapdeal-backend-x00d.onrender.com/api/orders")
       .then((res) => setOrders(res.data))
       .catch((err) => console.log(err));
   };

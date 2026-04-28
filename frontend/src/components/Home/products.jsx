@@ -8,7 +8,7 @@ function Products() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
-  const API = import.meta.env.VITE_API_URL || "http://localhost:3001";
+  const API = import.meta.env.VITE_API_URL || "https://snapdeal-backend-x00d.onrender.com";
   const query = new URLSearchParams(location.search);
   const search = query.get("search") || "";
 
