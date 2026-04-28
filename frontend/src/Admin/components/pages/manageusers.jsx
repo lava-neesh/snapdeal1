@@ -11,7 +11,7 @@ function ManageUsers() {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("https://snapdeal-backend-x00d.onrender.com/user/all-users");
+      const res = await axios.get("https://snapdeal-backend-x00d.onrender.com/api/user/all-users");
       setUsers(res.data);
     } catch (err) {
       console.log("Error fetching users:", err);
