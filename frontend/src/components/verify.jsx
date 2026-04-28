@@ -24,7 +24,7 @@ function Verify() {
     }
     try {
       const res = await axios.post(
-        "https://snapdeal-backend-x00d.onrender.com/user/verify",
+        "https://snapdeal-backend-x00d.onrender.com/api/user/verify",
         {
           email,
           otp: finalOtp
