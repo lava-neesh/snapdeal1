@@ -15,7 +15,7 @@ function ManageOrder() {
   }, []);
   const updateStatus = (id, newStatus) => {
     axios
-      .put(`https://snapdeal-backend-x00d.onrender.com/${id}`, {
+      .put(`https://snapdeal-backend-x00d.onrender.com/api/orders${id}`, {
         status: newStatus,
       })
       .then(() => fetchOrders())
