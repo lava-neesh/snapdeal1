@@ -1,25 +1,59 @@
 const Order = require("../models/order");
 const sendEmail = require("../utils/sendEmail");
+
+const generateInvoice = require("../utils/invoiceGenerator");
+
 const createOrder = async (req, res) => {
   try {
     const order = new Order(req.body);
     await order.save();
 
+    console.log(" Order saved:", order._id);
+    console.log(" Email received:", order.email);
+
     if (order.email) {
-      await sendEmail(
-        order.email,
-        "Order Placed ",
-        `
-        <h2>Hello ${order.name},</h2>
-        <p>Your order has been placed successfully </p>
+      try {
+        console.log(" Generating invoice...");
 
-        <p><strong>Order ID:</strong> ${order._id}</p>
-        <p><strong>Status:</strong> ${order.status}</p>
-        <p><strong>Total Amount:</strong> ₹${order.totalAmount}</p>
+        const pdfBuffer = await generateInvoice(order);
 
-        <p>Thank you for shopping with us!</p>
-        `
-      );
+        console.log(" PDF generated");
+
+        const attachment = {
+          content: pdfBuffer.toString("base64"),
+          filename: `invoice_${order._id}.pdf`,
+          type: "application/pdf",
+          disposition: "attachment",
+        };
+
+        console.log("Sending email...");
+
+        await sendEmail(
+          order.email,
+          "Order Placed ",
+          `
+          <h2>Hello ${order.name},</h2>
+          <p>Your order has been placed successfully </p>
+
+          <p><strong>Order ID:</strong> ${order._id}</p>
+          <p><strong>Status:</strong> ${order.status}</p>
+          <p><strong>Total Amount:</strong> ₹${order.totalAmount}</p>
+
+          <p>Your invoice is attached with this email.</p>
+
+          <p>Thank you for shopping with us!</p>
+          `,
+          attachment
+        );
+
+        console.log(" Email sent successfully");
+
+      } catch (mailError) {
+        console.log(" EMAIL ERROR:");
+        console.log(mailError.response?.body || mailError.message);
+      }
+    } else {
+      console.log(" No email found in order");
     }
 
     res.json({
@@ -29,10 +63,11 @@ const createOrder = async (req, res) => {
     });
 
   } catch (err) {
-    console.log(err);
+    console.log(" ORDER ERROR:", err);
     res.status(500).json({ message: "Error saving order" });
   }
 };
+
 const updateOrderStatus = async (req, res) => {
   try {
     const { id } = req.params;
@@ -70,6 +105,7 @@ const updateOrderStatus = async (req, res) => {
           <p><strong>Order ID:</strong> ${updatedOrder._id}</p>
         `;
       }
+
       await sendEmail(
         updatedOrder.email,
         "Order Status Update",

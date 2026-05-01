@@ -15,7 +15,7 @@ function Order() {
   const fetchOrders = async () => {
     try {
       const res = await axios.get(
-        `https://snapdeal-backend-x00d.onrender.com/orders`
+        `https://snapdeal-backend-x00d.onrender.com/api/orders`
       );
 
       console.log("Orders:", res.data); // 🔍 debug

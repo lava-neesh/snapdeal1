@@ -6,20 +6,16 @@ function Cart() {
   const [cart, setCart] = useState([]);
   const navigate = useNavigate();
 
-  // ================= LOAD CART =================
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCart(storedCart);
   }, []);
 
-  // ================= REMOVE =================
   const removeItem = (id) => {
     const updated = cart.filter((item) => item._id !== id);
     setCart(updated);
     localStorage.setItem("cart", JSON.stringify(updated));
   };
-
-  // ================= INCREASE =================
   const increaseQty = (id) => {
     const updated = cart.map((item) =>
       item._id === id
@@ -30,7 +26,6 @@ function Cart() {
     localStorage.setItem("cart", JSON.stringify(updated));
   };
 
-  // ================= DECREASE =================
   const decreaseQty = (id) => {
     const updated = cart.map((item) =>
       item._id === id && item.quantity > 1
@@ -41,7 +36,6 @@ function Cart() {
     localStorage.setItem("cart", JSON.stringify(updated));
   };
 
-  // ================= TOTAL =================
   const total = cart.reduce(
     (acc, item) =>
       acc + (item.discountPrice || item.price) * item.quantity,
@@ -50,8 +44,6 @@ function Cart() {
 
   return (
     <div className="cart-container">
-      
-      {/* ================= LEFT ================= */}
       <div className="cart-left">
         <h2>Cart ({cart.length} items)</h2>
 
@@ -59,9 +51,7 @@ function Cart() {
           <p>Cart is empty</p>
         ) : (
           cart.map((item) => (
-            <div className="cart-card" key={item._id}>
-              
-              {/* ✅ FIXED IMAGE */}
+            <div className="cart-card" key={item._id}>                  
               <img
                 src={item.image || "https://via.placeholder.com/150"}
                 alt={item.name}
@@ -96,8 +86,6 @@ function Cart() {
           ))
         )}
       </div>
-
-      {/* ================= RIGHT ================= */}
       <div className="cart-right">
         <h3>Order Summary</h3>
 

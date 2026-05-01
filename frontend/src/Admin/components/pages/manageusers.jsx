@@ -48,7 +48,7 @@ function ManageUsers() {
                 <td>{user.email}</td>
                 <td>{user.phone}</td>
                 <td>
-                  {user.isVerified ? "✅ Verified" : "❌ Not Verified"}
+                  {user.isVerified ? " Verified" : " Not Verified"}
                 </td>
               </tr>
             ))

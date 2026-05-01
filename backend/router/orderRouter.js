@@ -3,6 +3,7 @@ const router = express.Router();
 const Order = require("../models/order");
 const RegisterModel = require("../models/signup");
 const sendEmail = require("../utils/sendEmail");
+const generateInvoice = require("../utils/invoiceGenerator");
 
 router.post("/", async (req, res) => {
   try {
@@ -20,6 +21,8 @@ router.post("/", async (req, res) => {
 
     const user = await RegisterModel.findOne({ phone });
     const email = user?.email;
+
+    console.log(" Found email:", email);
 
     const newOrder = new Order({
       items,
@@ -43,36 +46,60 @@ router.post("/", async (req, res) => {
     });
 
     if (email) {
-      const productList = items
-        .map(item => `${item.name} x ${item.quantity}`)
-        .join("<br>");
+      try {
+        console.log(" Generating invoice...");
 
-      await sendEmail(
-        email,
-        "Order Placed 🛒",
-        `
-        <h2>Hello ${name},</h2>
+        const pdfBuffer = await generateInvoice(newOrder);
 
-        <p>Your order has been placed successfully</p>
+        const attachment = {
+          content: pdfBuffer.toString("base64"),
+          filename: `invoice_${newOrder._id}.pdf`,
+          type: "application/pdf",
+          disposition: "attachment",
+        };
 
-        <p><strong>Order ID:</strong> ${newOrder._id}</p>
-        <p><strong>Status:</strong> Pending</p>
+        const productList = items
+          .map(item => `${item.name} x ${item.quantity}`)
+          .join("<br>");
 
-        <p><strong>Products:</strong></p>
-        <p>${productList}</p>
+        console.log(" Sending email...");
 
-        <p><strong>Total Amount:</strong> ₹${totalAmount}</p>
+        await sendEmail(
+          email,
+          "Order Placed 🛒",
+          `
+          <h2>Hello ${name},</h2>
 
-        <p>Thank you for shopping with us! ❤️</p>
-        `
-      );
+          <p>Your order has been placed successfully</p>
+
+          <p><strong>Order ID:</strong> ${newOrder._id}</p>
+          <p><strong>Status:</strong> Pending</p>
+
+          <p><strong>Products:</strong></p>
+          <p>${productList}</p>
+
+          <p><strong>Total Amount:</strong> ₹${totalAmount}</p>
+
+          <p>Your invoice is attached with this email.</p>
+
+          <p>Thank you for shopping with us! ❤️</p>
+          `,
+          attachment
+        );
+
+        console.log(" Email sent successfully");
+
+      } catch (mailError) {
+        console.log(" EMAIL ERROR:");
+        console.log(mailError.response?.body || mailError.message);
+      }
 
     } else {
       console.log(" No email found for this user");
     }
 
   } catch (error) {
-    console.log(error);
+    console.log(" ORDER ERROR:", error);
     res.status(500).json({ message: "Error saving order" });
   }
 });
@@ -114,8 +141,8 @@ router.put("/:id", async (req, res) => {
 
     const email = user?.email;
 
-    console.log("📧 Email:", email);
-    console.log("📦 Status:", status);
+    console.log(" Email:", email);
+    console.log(" Status:", status);
 
     if (email) {
       let htmlMessage = "";

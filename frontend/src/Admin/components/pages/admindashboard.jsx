@@ -8,7 +8,10 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  ResponsiveContainer
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell
 } from "recharts";
 
 function AdminDashboard() {
@@ -31,7 +34,7 @@ function AdminDashboard() {
     try {
       const productRes = await axios.get("https://snapdeal-backend-x00d.onrender.com/admin/products");
       const orderRes = await axios.get("https://snapdeal-backend-x00d.onrender.com/api/orders");
-      const userRes = await axios.get("https://snapdeal-backend-x00d.onrender.com/api/user/all-users"); // ✅ USERS API
+      const userRes = await axios.get("https://snapdeal-backend-x00d.onrender.com/api/user/all-users");
 
       const totalRevenue = orderRes.data.reduce(
         (acc, item) => acc + (item.totalAmount || 0),
@@ -41,7 +44,7 @@ function AdminDashboard() {
       setStats({
         products: productRes.data.length,
         orders: orderRes.data.length,
-        users: userRes.data.length, // ✅ FIXED
+        users: userRes.data.length,
         revenue: totalRevenue
       });
 
@@ -51,97 +54,129 @@ function AdminDashboard() {
       console.log("Dashboard error:", err);
     }
   };
-
-  const chartData = [
-    { name: "Mon", revenue: 200 },
-    { name: "Tue", revenue: 400 },
-    { name: "Wed", revenue: 300 },
-    { name: "Thu", revenue: 900 },
-    { name: "Fri", revenue: 500 },
-    { name: "Sat", revenue: 200 },
-    { name: "Sun", revenue: 300 }
+  const revenueData = orders.slice(0, 7).map((o, i) => ({
+    name: `Day ${i + 1}`,
+    revenue: o.totalAmount || 0
+  }));
+  const statusData = [
+    {
+      name: "Delivered",
+      value: orders.filter(o => o.status === "Delivered").length
+    },
+    {
+      name: "Pending",
+      value: orders.filter(o => o.status === "Pending").length
+    }
   ];
 
+  const COLORS = ["#0edc2d", "#ffc107"];
+
   return (
-    <div className="dashboard-container">
+  <div className="main-content">
 
-      {/* HEADER */}
-      <div className="dashboard-header">
-        <h1>Admin Dashboard</h1>
-        <p>Manage your store performance</p>
-      </div>
-
-      {/* STATS */}
-      <div className="stats">
-
-        <div className="card" onClick={() => navigate("/admin/manage-products")}>
-          <h2>{stats.products}</h2>
-          <p>Products</p>
-        </div>
-
-        <div className="card" onClick={() => navigate("/admin/orders")}>
-          <h2>{stats.orders}</h2>
-          <p>Orders</p>
-        </div>
-
-        <div className="card" onClick={() => navigate("/admin/users")}>
-          <h2>{stats.users}</h2>
-          <p>Users</p>
-        </div>
-
-        <div className="card revenue" onClick={() => navigate("/admin/orders")}>
-          <h2>₹{stats.revenue}</h2>
-          <p>Revenue</p>
-        </div>
-
-      </div>
-
-      {/* BOTTOM SECTION */}
-      <div className="bottom-section">
-
-        {/* CHART */}
-        <div className="chart">
-          <h3>Revenue Trend</h3>
-          <ResponsiveContainer width="100%" height={250}>
-            <LineChart data={chartData}>
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey="revenue" strokeWidth={3} />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* RECENT ORDERS */}
-        <div className="orders">
-          <h3>Recent Orders</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Amount</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {orders.slice(0, 5).map((o) => (
-                <tr key={o._id}>
-                  <td>{o._id.slice(-5)}</td>
-                  <td>{o.name}</td>
-                  <td>₹{o.totalAmount}</td>
-                  <td className={`status ${o.status}`}>
-                    {o.status}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-      </div>
+    <div className="header">
+      <h1>Welcome to Admin Dashboard</h1>
     </div>
-  );
+    <div className="stats">
+
+  <div className="card" onClick={() => navigate("/admin/manage-products")}>
+    <h2>{stats.products}</h2>
+    <p>Total Products</p>
+  </div>
+
+  <div className="card" onClick={() => navigate("/admin/orders")}>
+    <h2>{stats.orders}</h2>
+    <p>Total Orders</p>
+  </div>
+
+  <div className="card" onClick={() => navigate("/admin/users")}>
+    <h2>{stats.users}</h2>
+    <p>Registered Users</p>
+  </div>
+
+  <div className="card revenue" onClick={() => navigate("/admin/orders")}>
+    <h2>₹{stats.revenue}</h2>
+    <p>Total Revenue</p>
+  </div>
+
+</div>
+    <div className="grid">
+      <div className="box">
+        <h3>Revenue Trend</h3>
+        <ResponsiveContainer width="100%" height={200}>
+          <LineChart data={revenueData}>
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Line type="monotone" dataKey="revenue" stroke="#751fe6" />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+      <div className="box">
+        <h3>Order Status</h3>
+        <PieChart width={250} height={200}>
+          <Pie data={statusData} dataKey="value" outerRadius={70}>
+            {statusData.map((_, i) => (
+              <Cell key={i} fill={["#28a745", "#ffc107"][i]} />
+            ))}
+          </Pie>
+          <Tooltip />
+        </PieChart>
+      </div>
+      <div className="box">
+        <h3>Monthly Orders</h3>
+        <ResponsiveContainer width="100%" height={200}>
+          <LineChart data={revenueData}>
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Line type="monotone" dataKey="revenue" stroke="#007bff" />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+      <div className="box">
+        <h3>Orders Trend</h3>
+        <ResponsiveContainer width="100%" height={200}>
+          <LineChart data={revenueData}>
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Line type="monotone" dataKey="revenue" stroke="#7d66e4" />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+
+    </div>
+    <div className="orders">
+      <div className="table-header">
+        <h3>Recent Orders</h3>
+        <span onClick={() => navigate("/admin/orders")}>View All</span>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.slice(0, 5).map((o) => (
+            <tr key={o._id}>
+              <td>{o._id.slice(-5)}</td>
+              <td>{new Date(o.createdAt).toLocaleDateString()}</td>
+              <td>₹{o.totalAmount}</td>
+              <td className={`badge ${o.status}`}>{o.status}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+);
 }
 
 export default AdminDashboard;
