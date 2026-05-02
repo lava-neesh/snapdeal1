@@ -4,26 +4,31 @@ import "./manageorder.css";
 
 function ManageOrder() {
   const [orders, setOrders] = useState([]);
+
   const fetchOrders = () => {
     axios
       .get("https://snapdeal-backend-x00d.onrender.com/api/orders")
       .then((res) => setOrders(res.data))
       .catch((err) => console.log(err));
   };
+
   useEffect(() => {
     fetchOrders();
   }, []);
+
   const updateStatus = (id, newStatus) => {
     axios
-      .put(`https://snapdeal-backend-x00d.onrender.com/api/orders${id}`, {
+      .put(`https://snapdeal-backend-x00d.onrender.com/api/orders/${id}`, {
         status: newStatus,
       })
       .then(() => fetchOrders())
       .catch((err) => console.log(err));
   };
+
   return (
     <div className="order-container">
       <h2>Manage Orders</h2>
+
       <table className="order-table">
         <thead>
           <tr>
@@ -39,6 +44,7 @@ function ManageOrder() {
             <th>Date</th>
           </tr>
         </thead>
+
         <tbody>
           {orders.length === 0 ? (
             <tr>
@@ -51,7 +57,8 @@ function ManageOrder() {
               <tr key={order._id}>
                 <td>{order._id}</td>
                 <td>{order.name}</td>
-                <td>{order.phone}</td>              
+                <td>{order.phone}</td>
+
                 <td>
                   {order.items?.map((item, i) => (
                     <div key={i}>
@@ -59,22 +66,22 @@ function ManageOrder() {
                     </div>
                   ))}
                 </td>
+
                 <td>₹{order.totalAmount}</td>
-                <td>{order.paymentMethod}</td>                
+                <td>{order.paymentMethod}</td>
+
                 <td>
                   {order.address}, {order.city}, {order.state} - {order.zip}
-                </td>                
+                </td>
+
+                {/* ✅ FIXED STATUS DISPLAY */}
                 <td>
-                  <span
-                    className={
-                      order.status === "Delivered"
-                        ? "status delivered"
-                        : "status pending"
-                    }
-                  >
+                  <span className={`status ${order.status.toLowerCase()}`}>
                     {order.status}
                   </span>
-                </td>                
+                </td>
+
+                {/* ✅ UPDATED DROPDOWN */}
                 <td>
                   <select
                     value={order.status}
@@ -84,9 +91,11 @@ function ManageOrder() {
                     className="status-dropdown"
                   >
                     <option value="Pending">Pending</option>
+                    <option value="Shipping">Shipping</option> {/* NEW */}
                     <option value="Delivered">Delivered</option>
                   </select>
-                </td>                
+                </td>
+
                 <td>
                   {new Date(order.createdAt).toLocaleDateString()}
                 </td>
