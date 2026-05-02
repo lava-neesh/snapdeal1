@@ -6,7 +6,10 @@ import "./productdetails.css";
 function ProductDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const [product, setProduct] = useState(null);
+  const [selectedSize, setSelectedSize] = useState("");
+  const [rating, setRating] = useState(0);
 
   useEffect(() => {
     axios
@@ -16,28 +19,40 @@ function ProductDetails() {
   }, [id]);
 
   const handleAddToCart = () => {
+    if (!selectedSize) {
+      alert("Please select size");
+      return;
+    }
+
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     const existingProduct = cart.find(
-      (item) => item._id === product._id
+      (item) => item._id === product._id && item.size === selectedSize
     );
 
     if (existingProduct) {
       existingProduct.quantity += 1;
     } else {
-      cart.push({ ...product, quantity: 1 });
+      cart.push({ ...product, quantity: 1, size: selectedSize });
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
     alert("Product added to cart");
   };
+
   const handleBuyNow = () => {
-    const buyNowCart = [{ ...product, quantity: 1 }];
+    if (!selectedSize) {
+      alert("Please select size");
+      return;
+    }
+
+    const buyNowCart = [{ ...product, quantity: 1, size: selectedSize }];
     localStorage.setItem("cart", JSON.stringify(buyNowCart));
     navigate("/checkout");
   };
 
   if (!product) return <h2>Loading...</h2>;
+
   const hasDiscount =
     product.discountPrice &&
     Number(product.discountPrice) < Number(product.price);
@@ -49,18 +64,48 @@ function ProductDetails() {
     : 0;
 
   return (
-    <div className="product-details">
-      <div className="image-section">
+    <div className="product-page">
+
+      {/* LEFT SIDE */}
+      <div className="image-container">
+        <div className="thumbnail-list">
+          {[1, 2, 3, 4].map((_, i) => (
+            <img
+              key={i}
+              src={product.image}
+              alt="thumb"
+              className="thumbnail"
+            />
+          ))}
+        </div>
+
         <img
-          className="main-image"
-          src={product.image || "https://via.placeholder.com/300"}
+          src={product.image}
           alt={product.name}
+          className="main-image"
         />
       </div>
-      <div className="details-section">
-        <h2>{product.name}</h2>
-        <p>{product.description}</p>
 
+      {/* RIGHT SIDE */}
+      <div className="details-container">
+
+        <h1 className="product-title">{product.name}</h1>
+
+        {/* ⭐ CLICKABLE RATING */}
+        <div className="rating">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <span
+              key={star}
+              className={star <= rating ? "star active-star" : "star"}
+              onClick={() => setRating(star)}
+            >
+              ★
+            </span>
+          ))}
+          <span className="rating-value"> ({rating}/5)</span>
+        </div>
+
+        {/* PRICE */}
         <div className="price-box">
           <span className="new-price">
             ₹{hasDiscount ? product.discountPrice : product.price}
@@ -74,15 +119,41 @@ function ProductDetails() {
           )}
         </div>
 
-        <div className="btn-group">
-          <button className="add-btn" onClick={handleAddToCart}>
-            Add to Cart
+        {/* SIZE */}
+        <div className="size-section">
+          <p>Select Size:</p>
+          <div className="sizes">
+            {["S", "M", "L", "XL"].map((size) => (
+              <button
+                key={size}
+                className={selectedSize === size ? "active-size" : ""}
+                onClick={() => setSelectedSize(size)}
+              >
+                {size}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* BUTTONS */}
+        <div className="button-group">
+          <button className="cart-btn" onClick={handleAddToCart}>
+            ADD TO CART
           </button>
 
           <button className="buy-btn" onClick={handleBuyNow}>
-            Buy Now
+            BUY NOW
           </button>
         </div>
+
+        {/* DELIVERY */}
+        <div className="delivery">
+          <input placeholder="Enter pincode" />
+          <button>Check</button>
+        </div>
+
+        {/* DESCRIPTION */}
+        <p className="desc">{product.description}</p>
       </div>
     </div>
   );

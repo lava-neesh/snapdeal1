@@ -1,53 +1,81 @@
-.form-container{
-  max-width:500px;
-  margin:40px auto;
-  background:white;
-  padding:30px;
-  border-radius:10px;
-  box-shadow:0 5px 15px rgb(247, 246, 246);
+/* Container */
+.form-container {
+  max-width: 600px;
+  margin: 40px auto;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  font-family: Arial, sans-serif;
 }
 
-.form-container h2{
-  text-align:center;
-  margin-bottom:20px;
-  font-size:24px;
+/* Title */
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #e40046; /* Snapdeal pink */
 }
 
-.product-form{
-  display:flex;
-  flex-direction:column;
-  gap:15px;
+/* Form */
+.product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
+/* Inputs */
 .product-form input,
-.product-form textarea{
-  padding:12px;
-  border:1px solid #ccc;
-  border-radius:6px;
-  font-size:14px;
-  outline:none;
+.product-form textarea,
+.product-form select {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  transition: 0.2s;
+  outline: none;
 }
 
+/* Focus effect */
 .product-form input:focus,
-.product-form textarea:focus{
-  border-color:#ff3f6c;
+.product-form textarea:focus,
+.product-form select:focus {
+  border-color: #e40046;
+  box-shadow: 0 0 5px rgba(228, 0, 70, 0.3);
 }
 
-.product-form textarea{
-  min-height:100px;
-  resize:none; 
+/* Textarea */
+.product-form textarea {
+  min-height: 80px;
+  resize: none;
 }
 
-.product-form button{
-  padding:12px;
-  background:#d11742;
-  color:white;
-  border:none;
-  border-radius:6px;
-  font-size:16px;
-  cursor:pointer;
+/* File input */
+.product-form input[type="file"] {
+  border: none;
 }
 
-.product-form button:hover{
-  background:#e6365f;
+/* Button */
+.product-form button {
+  background: #e40046;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* Hover effect */
+.product-form button:hover {
+  background: #c3003a;
+  transform: scale(1.02);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .form-container {
+    margin: 20px;
+    padding: 20px;
+  }
 }

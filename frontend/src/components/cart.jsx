@@ -11,14 +11,19 @@ function Cart() {
     setCart(storedCart);
   }, []);
 
-  const removeItem = (id) => {
-    const updated = cart.filter((item) => item._id !== id);
+  // 🔥 REMOVE (with size support)
+  const removeItem = (id, size) => {
+    const updated = cart.filter(
+      (item) => !(item._id === id && item.size === size)
+    );
     setCart(updated);
     localStorage.setItem("cart", JSON.stringify(updated));
   };
-  const increaseQty = (id) => {
+
+  // 🔥 INCREASE
+  const increaseQty = (id, size) => {
     const updated = cart.map((item) =>
-      item._id === id
+      item._id === id && item.size === size
         ? { ...item, quantity: item.quantity + 1 }
         : item
     );
@@ -26,9 +31,10 @@ function Cart() {
     localStorage.setItem("cart", JSON.stringify(updated));
   };
 
-  const decreaseQty = (id) => {
+  // 🔥 DECREASE
+  const decreaseQty = (id, size) => {
     const updated = cart.map((item) =>
-      item._id === id && item.quantity > 1
+      item._id === id && item.size === size && item.quantity > 1
         ? { ...item, quantity: item.quantity - 1 }
         : item
     );
@@ -36,6 +42,7 @@ function Cart() {
     localStorage.setItem("cart", JSON.stringify(updated));
   };
 
+  // 🔥 TOTAL
   const total = cart.reduce(
     (acc, item) =>
       acc + (item.discountPrice || item.price) * item.quantity,
@@ -44,14 +51,19 @@ function Cart() {
 
   return (
     <div className="cart-container">
+
+      {/* LEFT */}
       <div className="cart-left">
         <h2>Cart ({cart.length} items)</h2>
 
         {cart.length === 0 ? (
           <p>Cart is empty</p>
         ) : (
-          cart.map((item) => (
-            <div className="cart-card" key={item._id}>                  
+          cart.map((item, index) => (
+            <div
+              className="cart-card"
+              key={item._id + item.size + index} // 🔥 unique key
+            >
               <img
                 src={item.image || "https://via.placeholder.com/150"}
                 alt={item.name}
@@ -59,20 +71,30 @@ function Cart() {
 
               <div className="cart-info">
                 <h4>{item.name}</h4>
+
+                {/* 🔥 SHOW SIZE */}
+                {item.size && <p className="size">Size: {item.size}</p>}
+
                 <p className="price">
                   ₹{item.discountPrice || item.price}
                 </p>
 
                 <div className="qty-remove">
                   <div className="qty-box">
-                    <button onClick={() => decreaseQty(item._id)}>-</button>
+                    <button onClick={() => decreaseQty(item._id, item.size)}>
+                      -
+                    </button>
+
                     <span>{item.quantity}</span>
-                    <button onClick={() => increaseQty(item._id)}>+</button>
+
+                    <button onClick={() => increaseQty(item._id, item.size)}>
+                      +
+                    </button>
                   </div>
 
                   <span
                     className="remove"
-                    onClick={() => removeItem(item._id)}
+                    onClick={() => removeItem(item._id, item.size)}
                   >
                     Remove
                   </span>
@@ -86,6 +108,8 @@ function Cart() {
           ))
         )}
       </div>
+
+      {/* RIGHT */}
       <div className="cart-right">
         <h3>Order Summary</h3>
 

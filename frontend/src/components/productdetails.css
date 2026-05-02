@@ -1,65 +1,142 @@
-.product-details {
+/* PAGE */
+.product-page {
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 30px;
+  gap: 40px;
   padding: 30px;
-  font-family: Arial;
+  background: #f6f7fb;
 }
-.image-section {
-  flex: 1;
-  text-align: center;
+
+/* IMAGE */
+.image-container {
+  display: flex;
+  gap: 15px;
 }
-.main-image {
-  width: 300px;
-  height: 300px;
-  object-fit: contain;
+
+.thumbnail-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.thumbnail {
+  width: 60px;
+  height: 60px;
   border: 1px solid #ddd;
+  cursor: pointer;
 }
-.details-section {
+
+.main-image {
+  width: 400px;
+  height: 450px;
+  object-fit: contain;
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+/* DETAILS */
+.details-container {
   flex: 1;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
 }
-.details-section h2 {
-  margin-bottom: 10px;
+
+.product-title {
+  font-size: 22px;
+  font-weight: 600;
 }
-.details-section p {
-  margin-bottom: 15px;
-  color: #555;
+
+/* RATING */
+.rating {
+  margin: 10px 0;
 }
-.price-box {
-  margin-bottom: 15px;
-}
-.new-price {
+
+.star {
   font-size: 20px;
-  font-weight: bold;
-  color: green;
-  margin-right: 10px;
+  cursor: pointer;
+  color: #ccc;
 }
+
+.active-star {
+  color: #ffb400;
+}
+
+.rating-value {
+  margin-left: 10px;
+}
+
+/* PRICE */
+.price-box {
+  display: flex;
+  gap: 10px;
+  margin: 15px 0;
+  align-items: center;
+}
+
+.new-price {
+  color: #e40046;
+  font-size: 24px;
+  font-weight: bold;
+}
+
 .old-price {
   text-decoration: line-through;
   color: gray;
 }
-.btn-group {
+
+.discount {
+  color: green;
+}
+
+/* SIZE */
+.sizes button {
+  margin-right: 10px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+}
+
+.active-size {
+  border: 2px solid #e40046;
+  background: #ffe6ef;
+}
+
+/* BUTTONS */
+.button-group {
   display: flex;
-  gap: 10px;
+  gap: 15px;
+  margin: 20px 0;
 }
-.add-btn {
-  padding: 10px 15px;
-  background: black;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-.buy-btn {
-  padding: 10px 15px;
-  background: orange;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-.add-btn:hover {
+
+.cart-btn {
   background: #333;
+  color: white;
+  padding: 12px;
+  border: none;
+  cursor: pointer;
 }
-.buy-btn:hover {
-  background: darkorange;
+
+.buy-btn {
+  background: #e40046;
+  color: white;
+  padding: 12px;
+  border: none;
+  cursor: pointer;
+}
+
+/* DELIVERY */
+.delivery {
+  margin: 20px 0;
+}
+
+.delivery input {
+  padding: 8px;
+  margin-right: 10px;
+}
+
+/* DESC */
+.desc {
+  margin-top: 20px;
 }

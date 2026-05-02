@@ -19,6 +19,7 @@ import Cart from "./components/cart";
 import Checkout from "./components/checkout";
 import OrderSuccess from "./components/ordersuccess";
 import Order from "./components/order";
+import CategoryPage from "./components/CategoryPage";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
       <Route path="/checkout" element={<Checkout />} />  
       <Route path="/ordersuccess" element={<OrderSuccess />} />
       <Route path="/order" element={<Order />} />
+      <Route path="/category/:category" element={<CategoryPage />} />
 
       /* ADMIN ROUTES */
       <Route path="/admin/login" element={<Adminlogin />} />
