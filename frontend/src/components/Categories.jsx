@@ -3,11 +3,11 @@ import "./Categories.css";
 
 const categories = [
   {
-    name:"Mens Fashion",
+    name:"Men's Fashion",
     img:"/image/mens.jpg",
   },
   {
-    name:"Womens Fashion",
+    name:"Women's Fashion",
     img:"/image/womens.jpg",
   },
   {
@@ -15,7 +15,7 @@ const categories = [
     img:"/image/kitchen.jpg",
   },
   {
-    name:"Kids Fashion",
+    name:"Kid's Fashion",
     img:"/image/kids.jpg",
   },
   {

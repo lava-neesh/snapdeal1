@@ -49,7 +49,6 @@ function AdminDashboard() {
       });
 
       setOrders(orderRes.data);
-
     } catch (err) {
       console.log("Dashboard error:", err);
     }
@@ -70,7 +69,6 @@ function AdminDashboard() {
   ];
 
   const COLORS = ["#0edc2d", "#ffc107"];
-
   return (
   <div className="main-content">
 
